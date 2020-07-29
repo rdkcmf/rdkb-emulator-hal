@@ -1644,7 +1644,7 @@ int EnablingHttp()
         char buf[200],str[100];
         unsigned long hport,hports;
         hport = GetHttpPortValue(hports);
-        sprintf(str,"%c%c%lu%c",'"',':',hport,'"');
+        sprintf(str,"%c%s%c%lu%c",'"',"eth0",':',hport,'"');
         sprintf(buf,"%s%c%c%s%s%c %s","sed -i ",'"','/',str,"/ s/^#*//",'"',"/etc/lighttpd.conf");
         system(buf);
         return 0;
@@ -1654,7 +1654,7 @@ int DisablingHttp()
         char buf[200],str[100];
         unsigned long hport,hports;
         hport = GetHttpPortValue(hports);
-        sprintf(str,"%c%c%lu%c",'"',':',hport,'"');
+        sprintf(str,"%c%s%c%lu%c",'"',"eth0",':',hport,'"');
         sprintf(buf,"%s%c%c%s%s%s%c %s","sed -i ",'"','/',str,"/ s/^/","#/",'"',"/etc/lighttpd.conf");
         system(buf);
         return 0;
@@ -1678,8 +1678,8 @@ int SetHttpPort(unsigned long htttpport)
         fgets(path,sizeof(path),fp);
         fgets(path,sizeof(path),fp);
         httpport = atol(path);
-        sprintf(str,"%c%c%lu%c",'"',':',httpport,'"');
-        sprintf(str1,"%c%c%lu%c",'"',':',htttpport,'"');
+        sprintf(str,"%c%s%c%lu%c",'"',"eth0",':',httpport,'"');
+        sprintf(str1,"%c%s%c%lu%c",'"',"eth0",':',htttpport,'"');
         sprintf(buf,"%s%s%s%s%s%s","sed -i -e 's/",str,"/",str1,"/g'", " /etc/lighttpd.conf");
         system(buf);
         pclose(fp);
