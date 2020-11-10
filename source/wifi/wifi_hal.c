@@ -106,6 +106,17 @@
 #define MAX_APS 2
 #define NULL_CHAR '\0'
 
+#define POINTER_ASSERT(expr) if(!(expr)) { \
+        printf("%s %d, Invalid parameter error!!!\n", __FUNCTION__,__LINE__); \
+        return RETURN_ERR; \
+       }
+
+#define HAL_RADIO_NUM_RADIOS        2
+#define radioIndex_Assert(Index) if ((Index >= HAL_RADIO_NUM_RADIOS) || (Index < 0)) { \
+         printf("%s, INCORRECT radioIndex [%d] \n", __FUNCTION__, Index); \
+    return RETURN_ERR; \
+    }
+
 //PSM Access-RDKB-EMU
 extern ANSC_HANDLE bus_handle;
 extern char g_Subsystem[32];
@@ -1604,6 +1615,7 @@ void wifi_apAuthEvent_callback_register(wifi_apAuthEvent_callback callback_proc)
 //Get the wifi hal version in string, eg "2.0.0".  WIFI_HAL_MAJOR_VERSION.WIFI_HAL_MINOR_VERSION.WIFI_HAL_MAINTENANCE_VERSION
 INT wifi_getHalVersion(CHAR *output_string)   //RDKB   
 {
+	POINTER_ASSERT(output_string != NULL);
 	snprintf(output_string, 64, "%d.%d.%d", WIFI_HAL_MAJOR_VERSION, WIFI_HAL_MINOR_VERSION, WIFI_HAL_MAINTENANCE_VERSION);
 	return RETURN_OK;
 }
@@ -1881,6 +1893,9 @@ INT wifi_getRadioEnable(INT radioIndex, BOOL *output_bool)      //RDKB
 	FILE *fp = NULL;
 	if(radioIndex < 0)
 		return RETURN_ERR;
+
+	POINTER_ASSERT(output_bool != NULL);
+	radioIndex_Assert(radioIndex);
 	if((radioIndex == 0) || (radioIndex == 1))
 	{
 		sprintf(HConf_file,"%s%d%s","/nvram/hostapd",radioIndex,".conf");
