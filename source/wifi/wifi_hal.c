@@ -7669,37 +7669,110 @@ int main(int argc,char **argv)
 {
 	int index;
 	INT ret=0;
-    if(argc <= 1) {
-        printf("help\n");
-        //fprintf(stderr,"%s", commands_help);
+	if(argc <= 1) {
+		printf("help\n");
+		//fprintf(stderr,"%s", commands_help);
 
-        exit(-1);
-    } 
+		exit(-1);
+	} 
 
-    if(strstr(argv[1], "init")!=NULL) {
-        return wifi_init();
-    }
-    else if(strstr(argv[1], "reset")!=NULL) {
-        return wifi_reset();
-    }    
-	
+	if(strstr(argv[1], "init")!=NULL) {
+		return wifi_init();
+	}
+	else if(strstr(argv[1], "reset")!=NULL) {
+		return wifi_reset();
+	}    
+
 	index = atoi(argv[2]);
-    if(strstr(argv[1], "getApEnable")!=NULL) {
-        BOOL enable;
+	if(strstr(argv[1], "getApEnable")!=NULL) {
+		BOOL enable;
 		ret=wifi_getApEnable(index, &enable);
-        printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
-    }
-    else if(strstr(argv[1], "setApEnable")!=NULL) {
-        BOOL enable = atoi(argv[3]);
-        ret=wifi_setApEnable(index, enable);
-        printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
-    }
-    else if(strstr(argv[1], "getApStatus")!=NULL) {
-        char status[64]; 
-        ret=wifi_getApStatus(index, status);
-        printf("%s %d: %s, returns %d\n", argv[1], index, status, ret);
-    }
-    else if(strstr(argv[1], "getSSIDTrafficStats2")!=NULL) {
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if(strstr(argv[1], "wifi_getSSIDEnable")!=NULL) {
+		BOOL enable;
+		ret=wifi_getSSIDEnable(index, &enable);
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if(strstr(argv[1], "setApEnable")!=NULL) {
+		BOOL enable = atoi(argv[3]);
+		ret=wifi_setApEnable(index, enable);
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if(strstr(argv[1], "getApStatus")!=NULL) {
+		char status[64]; 
+		ret=wifi_getApStatus(index, status);
+		printf("%s %d: %s, returns %d\n", argv[1], index, status, ret);
+	}
+
+	else if (strstr(argv[1], "wifi_getSSIDName")!=NULL) {
+		char name[64];
+		ret=wifi_getSSIDName(index, name);
+		 printf("%s %d: %s, returns %d\n", argv[1], index, name, ret);
+	}
+	else if (strstr(argv[1], "wifi_setSSIDName")!=NULL) {
+		ret=wifi_setSSIDName(index, argv[3]);
+		printf("%s %d: %s, returns %d\n", argv[1], index, argv[3], ret);
+	}
+	else if (strstr(argv[1], "wifi_setApSecurityModeEnabled")!=NULL) {
+		ret=wifi_setApSecurityModeEnabled(index, argv[3]);
+		printf("%s %d: %s, returns %d\n", argv[1], index, argv[3], ret);
+	}
+	else if (strstr(argv[1], "wifi_setApSecurityPreSharedKey")!=NULL) {
+		ret=wifi_setApSecurityPreSharedKey(index, argv[3]);
+		printf("%s %d: %s, returns %d\n", argv[1], index, argv[3], ret);
+	}
+	else if (strstr(argv[1], "wifi_getApSecurityPreSharedKey")!=NULL) {
+		char presharedkey[32];
+		ret=wifi_getApSecurityPreSharedKey(index, presharedkey);
+		printf("%s\n", presharedkey);
+	}
+	else if (strstr(argv[1], "wifi_getApWpsConfigurationState")!=NULL) {
+		char configstate[32];
+		ret=wifi_getApWpsConfigurationState(index, configstate);
+		printf("%s\n", configstate);
+	}
+	else if (strstr(argv[1], "wifi_setSSIDEnable")!=NULL) {
+		BOOL enable = atoi(argv[3]);
+		ret=wifi_setSSIDEnable(index, enable);
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if (strstr(argv[1], "wifi_setRadioEnable")!=NULL) {
+		BOOL enable = atoi(argv[3]);
+		ret=wifi_setRadioEnable(index, enable);
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if (strstr(argv[1], " wifi_setRadioChannel")!=NULL) {
+		ULONG channel = atoi(argv[3]);
+		ret= wifi_setRadioChannel(index, channel);
+		printf("%s %d: %ld, returns %d\n", argv[1], index,channel, ret);
+	}
+	else if (strstr(argv[1], "wifi_getRadioStatus")!=NULL) {
+		BOOL enable;
+		ret=wifi_getRadioStatus(index, &enable);
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if (strstr(argv[1], "wifi_getSSIDStatus")!=NULL) {
+		char status[64];
+		ret=wifi_getSSIDStatus(index, status);
+		printf("%s %d: %s, returns %d\n", argv[1], index, status, ret);
+	}	
+	else if (strstr(argv[1], "wifi_getApSsidAdvertisementEnable")!=NULL) {
+		BOOL enable = 0;
+		ret=wifi_getApSsidAdvertisementEnable(index, &enable);	
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if (strstr(argv[1], "wifi_getApWpsEnable")!=NULL) {
+		BOOL enable = 0;
+		ret=wifi_getApWpsEnable(index, &enable);
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if (strstr(argv[1], "wifi_getRadioEnable")!=NULL) {
+		BOOL enable = 0;
+		ret=wifi_getRadioEnable(index, &enable);
+		printf("%s %d: %d, returns %d\n", argv[1], index, enable, ret);
+	}
+	else if(strstr(argv[1], "getSSIDTrafficStats2")!=NULL) {
 		wifi_ssidTrafficStats2_t stats={0};
 		ret=wifi_getSSIDTrafficStats2(index, &stats); //Tr181
 		printf("%s %d: returns %d\n", argv[1], index, ret);
